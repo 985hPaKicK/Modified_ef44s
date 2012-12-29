@@ -212,11 +212,21 @@ sp<ICamera> CameraService::connect(
     char camera_device_name[10];
     snprintf(camera_device_name, sizeof(camera_device_name), "%d", cameraId);
 
+#ifdef FORCE_CAMERA_PERM_SET
+    ALOGI("Set permission");
+    property_set("media.camera_init", "1");
+#endif
+
     hardware = new CameraHardwareInterface(camera_device_name);
     if (hardware->initialize(&mModule->common) != OK) {
         hardware.clear();
         return NULL;
     }
+
+#ifdef FORCE_CAMERA_PERM_SET
+    ALOGI("Setting permission is Done!");
+    property_set("media.camera_init", "0");
+#endif
 
     client = new Client(this, cameraClient, hardware, cameraId, info.facing, callingPid);
     mClient[cameraId] = client;

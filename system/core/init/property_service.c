@@ -93,6 +93,9 @@ struct {
     { "persist.security.",AID_SYSTEM,   0 },
     { "net.pdp",          AID_RADIO,    AID_RADIO },
     { "service.bootanim.exit", AID_GRAPHICS, 0 },
+#ifdef FORCE_CAMERA_PERM_SET
+    { "media.",AID_MEDIA,   0 },
+#endif
 #ifdef PROPERTY_PERMS_APPEND
 PROPERTY_PERMS_APPEND
 #endif
